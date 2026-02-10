@@ -5,7 +5,6 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
   };
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
   outputs = { self, nixpkgs, ... }@inputs: {
     # The host with the hostname `nixos` will use this configuration
     nixosConfigurations = {
