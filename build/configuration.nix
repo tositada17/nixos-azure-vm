@@ -25,11 +25,14 @@
     home = "/home/${username}";
     extraGroups = [ "wheel docker" ]; # Enable ‘sudo’ for the user.
   };
-  
+
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
   environment.systemPackages = with pkgs; [
     curl
     git
     vim
   ];
   
+  # remount my nixos configuration file.  
+  environment.etc."nixos".source = ../nixos;
 }

@@ -14,7 +14,7 @@
         ( nixpkgs.lib.nixosSystem {
           inherit system;
           modules = [
-            (import ./configuration.nix { inherit username;})
+            (import ./build/configuration.nix { inherit username;})
           ];
         }).config.system.build.azureImage;
     };
