@@ -37,6 +37,10 @@
     nix-ld.enable = true;
   };
 
+  services.waagent = {
+    enable = true;
+  };
+
   # Please set the VM Generation to the actual value
   virtualisation.azureImage.vmGeneration = "v2";
 }
