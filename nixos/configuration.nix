@@ -21,14 +21,21 @@
     gh
     curl
     wget
+    azure-cli
+    nix-ld-rs
+    neovim
   ];
   
+  environment.variables.EDITOR = "neovim";
   users.users."nixos" = {
     isNormalUser = true;
     home = "/home/nixos";
     extraGroups = [ "wheel docker" ]; # Enable ‘sudo’ for the user.
   };
-  #nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  programs = {
+    nix-ld.enable = true;
+  };
 
   # Please set the VM Generation to the actual value
   virtualisation.azureImage.vmGeneration = "v2";
