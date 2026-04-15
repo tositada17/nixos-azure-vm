@@ -6,8 +6,10 @@
 trigger:
 - main
 
-pool:
-  vmImage: ubuntu-latest
+pool: 
+  name: nixos
+  demands: Agent.Name -equals nixos-20260121
+
 
 steps:
 - script: echo Hello, world!
@@ -17,3 +19,11 @@ steps:
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
   displayName: 'Run a multi-line script'
+
+- script: |
+    nix run nixpkgs#hello
+  displayName: 'nixos run hello'
+
+- script: |
+    nix run nixpkgs#cowsay aaa
+  displayName: 'nixos run cowsay'
