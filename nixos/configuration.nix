@@ -1,4 +1,4 @@
-{ modulesPath ,pkgs , ... }:
+{ modulesPath ,pkgs , inputs,... }:
 
 {
   # To build the configuration or use nix-env, you need to run
@@ -10,7 +10,7 @@
   # if you are able to see this comment.
   imports = [
    "${modulesPath}/virtualisation/azure-common.nix"
-   "${modulesPath}/virtualisation/azure-image.nix"
+   "${modulesPath}/virtualisation/azure-image.nix" 
   ];
   
   
@@ -24,17 +24,38 @@
     azure-cli
     nix-ld-rs
     neovim
+    # icu inside dotnet sdk
+    krb5
+    zlib
+    lttng-ust
+    openssl_3
+    nodejs_20
+    gcc
+    libgcc
+    cmake
+    extra-cmake-modules
+    zlib
+   ];
+
+  nixpkgs.config.permittedInsecurePackages = with pkgs; [
+    dotnet-sdk_6
+    dotnet-runtime_6
   ];
-  
+
   environment.variables.EDITOR = "neovim";
+  environment.variables.LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${pkgs.icu}/lib:${pkgs.stdenv.cc.cc.lib}/lib:${pkgs.zlib}/lib";
   users.users."nixos" = {
     isNormalUser = true;
     home = "/home/nixos";
     extraGroups = [ "wheel docker" ]; # Enable ‘sudo’ for the user.
   };
 
-  programs = {
-    nix-ld.enable = true;
+  programs.nix-ld = {
+    enable = true;
+    libraries = with pkgs; [
+      stdenv.cc.cc.lib
+      icu
+    ];
   };
 
   services.waagent = {
